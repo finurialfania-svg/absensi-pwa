@@ -34,8 +34,13 @@ export default function App() {
   useEffect(() => {
     if (!user) return
     const unsubs = [
-      onSnapshot(query(collection(db, 'sessions'), orderBy('createdAt', 'desc')), s => setSessions(s.docs.map(d => ({ id:d.id, ...d.data() } as Session)), e => console.error(e))
-    ]
+      
+      onSnapshot(
+        query(collection(db, 'sessions'), orderBy('createdAt', 'desc')),
+        s => setSessions(s.docs.map(d => ({ id: d.id, ...d.data() } as Session))),
+        e => console.error(e)
+      )
+
     // Firestore rules only allow students to read their own attendance.
     const attendanceQuery = admin
       ? query(collection(db, 'attendance'), orderBy('createdAt', 'desc'))
